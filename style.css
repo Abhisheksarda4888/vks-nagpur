@@ -151,9 +151,6 @@ p{color:var(--ink3);line-height:1.82;font-size:.95rem;font-weight:300}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 .hero-desc{max-width:560px;margin:1.1rem 0 2rem;font-size:.94rem;color:rgba(255,255,255,.58);line-height:1.85;animation:fadeUp .8s .55s var(--ease) both}
 .hero-actions{display:flex;gap:.85rem;flex-wrap:wrap;animation:fadeUp .8s .65s var(--ease) both}
-.hero-scroll{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:7;display:flex;flex-direction:column;align-items:center;gap:.45rem;opacity:.85;pointer-events:none}
-.hero-scroll-label{font-size:.58rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.38)}
-.hero-scroll-hand{font-size:1.4rem;animation:handBounce 2s ease-in-out infinite}
 @keyframes handBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
 
 /* ══════════════════════════════════════
