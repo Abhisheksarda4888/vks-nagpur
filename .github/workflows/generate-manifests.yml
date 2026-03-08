@@ -1,0 +1,78 @@
+name: Generate Manifests
+
+on:
+  push:
+    paths:
+      - 'images/seminar-knowledge/**'
+      - 'images/team-movements/**'
+      - 'images/weekend-charcha/**'
+      - 'bulletins/**'
+      - 'publications.json'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate gallery-manifest.json
+        run: |
+          python3 - << 'PYEOF'
+          import json, os, glob
+
+          def get_images(folder):
+              exts = ('*.jpg','*.jpeg','*.png','*.webp','*.JPG','*.JPEG','*.PNG')
+              files = []
+              for ext in exts:
+                  files += glob.glob(f'images/{folder}/{ext}')
+              files = sorted([os.path.basename(f) for f in files])
+              return files
+
+          manifest = {
+              "seminar-knowledge": get_images("seminar-knowledge"),
+              "team-movements":    get_images("team-movements"),
+              "weekend-charcha":   get_images("weekend-charcha")
+          }
+
+          with open('gallery-manifest.json','w') as f:
+              json.dump(manifest, f, indent=2)
+
+          print("gallery-manifest.json generated")
+          print(json.dumps(manifest, indent=2))
+          PYEOF
+
+      - name: Generate bulletins-manifest.json
+        run: |
+          python3 - << 'PYEOF'
+          import json, os, glob, re
+
+          files = sorted(glob.glob('bulletins/*.pdf'), reverse=True)
+          bulletins = []
+          for f in files:
+              name = os.path.basename(f)
+              # Expected format: Month-YYYY.pdf e.g. March-2026.pdf
+              display = name.replace('.pdf','').replace('-',' ')
+              bulletins.append({
+                  "file": name,
+                  "display": display,
+                  "path": f"bulletins/{name}"
+              })
+
+          with open('bulletins-manifest.json','w') as f:
+              json.dump(bulletins, f, indent=2)
+
+          print("bulletins-manifest.json generated")
+          print(json.dumps(bulletins, indent=2))
+          PYEOF
+
+      - name: Commit manifests
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add gallery-manifest.json bulletins-manifest.json
+          git diff --staged --quiet || git commit -m "Auto-update manifests [skip ci]"
+          git push
