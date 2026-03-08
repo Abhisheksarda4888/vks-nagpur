@@ -125,13 +125,7 @@
     });
   });
 
-  /* ── HERO SCROLL HIDE ── */
-  const heroScroll = document.querySelector('.hero-scroll');
-  if(heroScroll){
-    window.addEventListener('scroll', ()=>{
-      heroScroll.classList.toggle('hidden', window.scrollY > 80);
-    }, {passive:true});
-  }
+ 
 
 })();
 
