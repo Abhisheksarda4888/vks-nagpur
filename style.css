@@ -633,7 +633,7 @@ textarea.fc{resize:vertical;min-height:110px}
 /* ══════════════════════════════════════
    OVERFLOW PREVENTION
 ══════════════════════════════════════ */
-section,footer,nav,.pad,.pad-sm{max-width:100%;overflow-x:hidden}
+footer,nav,.pad,.pad-sm{max-width:100%;overflow-x:hidden}
 
 /* ══════════════════════════════════════
    RESPONSIVE — Tablet 1100px
