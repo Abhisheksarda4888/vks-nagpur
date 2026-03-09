@@ -710,9 +710,9 @@ section,footer,nav,.pad,.pad-sm{max-width:100%;overflow-x:hidden}
   .container{padding:0 1rem}
 
   /* Nav */
-  .logo-img{width:36px;height:36px}
-  .logo-firm{font-size:.88rem;line-height:1.25;max-width:155px;white-space:normal}
-  .logo-tag{display:none}
+  .logo-img{width:44px;height:44px}
+.logo-firm{font-size:1rem;line-height:1.25;max-width:175px;white-space:normal}
+.logo-tag{display:none}
 
   /* Grid */
   .bento-grid{grid-template-columns:1fr 1fr;gap:.85rem}
