@@ -728,7 +728,7 @@ section,footer,nav,.pad,.pad-sm{max-width:100%;overflow-x:hidden}
   .kb-grid{grid-template-columns:1fr}
 
   /* Hero */
-  .hero{min-height:100svh;padding-bottom:3.5rem}
+  .hero{min-height:100svh;padding-top:calc(var(--nav-h) + 0.75rem);padding-bottom:5rem}
   .hero-actions{flex-direction:column;gap:.65rem}
   .hero-actions .btn{width:100%;justify-content:center}
 
