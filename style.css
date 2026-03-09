@@ -750,7 +750,21 @@ section,footer,nav,.pad,.pad-sm{max-width:100%;overflow-x:hidden}
   .pf-sticky{grid-template-columns:1fr}
   .career-cards{gap:1.1rem}
   .achieve-grid{grid-template-columns:repeat(2,1fr);gap:.85rem}
-  .event-tab{font-size:.65rem;padding:.4rem .85rem}
+ .event-tab{font-size:.65rem;padding:.4rem .85rem}
+
+/* Partner slider mobile */
+.partners-slider-mob{display:block;position:relative;padding:0 2.5rem}
+.partners-grid{display:none}
+.p-slider-track-wrap{overflow:hidden;width:100%}
+.p-slider-track{display:flex;transition:transform .5s cubic-bezier(0.16,1,0.3,1);will-change:transform}
+.p-slider-track .p-card{min-width:100%;width:100%;flex-shrink:0;transform:none!important;cursor:pointer}
+.p-slider-arrow{position:absolute;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:var(--white);display:flex;align-items:center;justify-content:center;color:var(--navy);cursor:pointer;box-shadow:var(--sh-sm);z-index:10;transition:all .18s;flex-shrink:0}
+.p-slider-arrow:hover{background:var(--navy);border-color:var(--navy);color:var(--white)}
+.p-slider-arrow.prev{left:0}
+.p-slider-arrow.next{right:0}
+.p-slider-dots{display:flex;justify-content:center;gap:.45rem;margin-top:1.25rem}
+.p-slider-dot{width:7px;height:7px;border-radius:50%;background:var(--line);transition:all .18s;cursor:pointer}
+.p-slider-dot.active{background:var(--navy);width:20px;border-radius:4px}
 }
 
 /* ══════════════════════════════════════
