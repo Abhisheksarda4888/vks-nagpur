@@ -220,3 +220,56 @@
 
   counters.forEach(c=>io.observe(c));
 })();
+
+/* ── PARTNER CARDS MOBILE SLIDER ── */
+(function(){
+  const isMob = () => window.innerWidth <= 640;
+  const grid = document.getElementById('partnersGridDesktop');
+  const sliderWrap = document.getElementById('partnerSliderMob');
+  const track = document.getElementById('pSliderTrack');
+  const dotsWrap = document.getElementById('pSliderDots');
+  const prevBtn = document.getElementById('pSliderPrev');
+  const nextBtn = document.getElementById('pSliderNext');
+  if(!grid||!sliderWrap||!track) return;
+
+  const partnerLinks = ['partners.html#varun','partners.html#pavan','partners.html#ashish'];
+  let current = 0, autoTimer = null, initialized = false;
+
+  function init(){
+    if(initialized) return;
+    initialized = true;
+    Array.from(grid.querySelectorAll('.p-card')).forEach((card,i)=>{
+      const clone = card.cloneNode(true);
+      clone.style.cursor = 'pointer';
+      clone.addEventListener('click',()=>{ window.location.href = partnerLinks[i]||'partners.html'; });
+      clone.classList.remove('rv','rv-d1','rv-d2','rv-d3');
+      clone.classList.add('vis');
+      track.appendChild(clone);
+      const dot = document.createElement('div');
+      dot.className = 'p-slider-dot'+(i===0?' active':'');
+      dot.addEventListener('click',()=>goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+    goTo(0);
+    startAuto();
+  }
+
+  function goTo(idx){
+    const cards = track.querySelectorAll('.p-card');
+    current = (idx+cards.length)%cards.length;
+    track.style.transform = `translateX(-${current*100}%)`;
+    dotsWrap.querySelectorAll('.p-slider-dot').forEach((d,i)=>d.classList.toggle('active',i===current));
+  }
+
+  function startAuto(){ clearInterval(autoTimer); autoTimer = setInterval(()=>goTo(current+1),4500); }
+
+  prevBtn.addEventListener('click',()=>{ goTo(current-1); startAuto(); });
+  nextBtn.addEventListener('click',()=>{ goTo(current+1); startAuto(); });
+
+  function toggle(){
+    if(isMob()){ grid.style.display='none'; sliderWrap.style.display='block'; init(); }
+    else { grid.style.display=''; sliderWrap.style.display='none'; }
+  }
+  toggle();
+  window.addEventListener('resize',toggle);
+})();
