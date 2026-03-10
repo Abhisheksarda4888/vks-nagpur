@@ -218,14 +218,6 @@ function closeLB(){
 }
 
 /* LOAD GALLERY */
-fetch('gallery-manifest.json?v=' + Date.now())
-  .then(r => r.json())
-  .then(data => {
-    loadGallery('gallery-seminar', data['seminar-knowledge'], 'images/seminar-knowledge/');
-    loadGallery('gallery-team',    data['team-movements'],   'images/team-movements/');
-  })
-  .catch(() => {});
-
 function loadGallery(containerId, files, basePath) {
   if (!files || files.length === 0) return;
   const grid = document.getElementById(containerId);
@@ -235,13 +227,33 @@ function loadGallery(containerId, files, basePath) {
     src: basePath + file,
     cap: file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')
   }));
-  files.forEach((file, i) => {
-    const name = allImgs[i].cap;
-    grid.innerHTML += `<div class="gallery-item vis" onclick="openLB(${JSON.stringify(allImgs).replace(/"/g,"'")},${i})">
-      <img src="${basePath}${file}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"/>
-      <div class="gallery-overlay"><div class="gallery-caption">${name}</div></div>
-    </div>`;
-  });
+  const limit = 6;
+  function renderItems(list){
+    list.forEach((img, i) => {
+      grid.innerHTML += `<div class="gallery-item vis" onclick="openLB(${JSON.stringify(allImgs).replace(/"/g,"'")},${allImgs.indexOf(img)})">
+        <img src="${img.src}" alt="${img.cap}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"/>
+        <div class="gallery-overlay"><div class="gallery-caption">${img.cap}</div></div>
+      </div>`;
+    });
+  }
+  renderItems(allImgs.slice(0, limit));
+  if(allImgs.length > limit){
+    const btn = document.createElement('div');
+    btn.style.cssText = 'grid-column:1/-1;text-align:center;margin-top:1rem';
+    btn.innerHTML = `<button class="btn btn-outline" onclick="
+      this.parentElement.remove();
+      (function(){
+        const grid = document.getElementById('${containerId}');
+        const allImgs = ${JSON.stringify(allImgs)};
+        allImgs.slice(${limit}).forEach((img,i)=>{
+          grid.innerHTML += '<div class=\\'gallery-item vis\\' onclick=\\'openLB('+JSON.stringify(allImgs).replace(/'/g,\\'\\\\'\\')+','+(${limit}+i)+')\\'>'+
+          '<img src=\\''+img.src+'\\' loading=\\'lazy\\' style=\\'width:100%;height:100%;object-fit:cover;display:block\\'/>'+
+          '<div class=\\'gallery-overlay\\'><div class=\\'gallery-caption\\'>'+img.cap+'</div></div></div>';
+        });
+      })()
+    ">View More Photos (${allImgs.length - limit} more)</button>`;
+    grid.appendChild(btn);
+  }
 }
 </script>
 </body>
