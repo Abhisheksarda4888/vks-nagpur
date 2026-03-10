@@ -152,7 +152,7 @@ fetch('gallery-manifest.json?v=' + Date.now())
   .then(data => {
     loadGallery('gallery-seminar', data['seminar-knowledge'], 'images/seminar-knowledge/');
     loadGallery('gallery-team',    data['team-movements'],   'images/team-movements/');
-    loadGallery('gallery-charcha', data['weekend-charcha'],  'images/weekend-charcha/');
+   
   })
   .catch(() => {});
 
