@@ -24,6 +24,10 @@
 .lb-close{position:fixed;top:1.25rem;right:1.5rem;color:#fff;font-size:2rem;cursor:pointer;background:none;border:none;z-index:10000}
 .lb-caption{position:fixed;bottom:1.5rem;left:0;right:0;text-align:center;color:rgba(255,255,255,.6);font-size:.8rem}
 .gallery-empty span{display:block;font-size:2rem;margin-bottom:.75rem}
+  .lb-prev,.lb-next{position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;font-size:1.75rem;width:48px;height:48px;border-radius:50%;cursor:pointer;z-index:10000;display:flex;align-items:center;justify-content:center}
+.lb-prev{left:1.25rem}
+.lb-next{right:1.25rem}
+.lb-prev:hover,.lb-next:hover{background:rgba(255,255,255,.25)}
 </style>
 </head>
 <body>
@@ -159,15 +163,59 @@
 </div></nav>
 <script src="main.js"></script>
 <script>
-/* LIGHTBOX */
+/* LIGHTBOX WITH NAVIGATION */
+let lbImages = [];
+let lbIndex = 0;
+
 const lb = document.createElement('div');
 lb.className = 'lb-overlay';
-lb.innerHTML = '<button class="lb-close" onclick="closeLB()">✕</button><img id="lbImg"/><div class="lb-caption" id="lbCap"></div>';
+lb.innerHTML = `
+  <button class="lb-close" onclick="closeLB()">✕</button>
+  <button class="lb-prev" onclick="lbNav(-1)">&#8592;</button>
+  <img id="lbImg"/>
+  <button class="lb-next" onclick="lbNav(1)">&#8594;</button>
+  <div class="lb-caption" id="lbCap"></div>
+`;
 document.body.appendChild(lb);
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeLB(); });
+
+/* Keyboard */
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('open')) return;
+  if(e.key==='Escape') closeLB();
+  if(e.key==='ArrowLeft') lbNav(-1);
+  if(e.key==='ArrowRight') lbNav(1);
+});
+
+/* Click outside to close */
 lb.addEventListener('click',e=>{ if(e.target===lb) closeLB(); });
-function openLB(src,cap){ document.getElementById('lbImg').src=src; document.getElementById('lbCap').textContent=cap; lb.classList.add('open'); document.body.classList.add('no-scroll'); }
-function closeLB(){ lb.classList.remove('open'); document.body.classList.remove('no-scroll'); }
+
+/* Swipe */
+let swipeX=0;
+lb.addEventListener('touchstart',e=>{ swipeX=e.touches[0].clientX; },{passive:true});
+lb.addEventListener('touchend',e=>{
+  const diff = swipeX - e.changedTouches[0].clientX;
+  if(Math.abs(diff)>45) lbNav(diff>0?1:-1);
+});
+
+function openLB(allImgs, index){
+  lbImages = allImgs;
+  lbIndex = index;
+  showLB();
+  lb.classList.add('open');
+  document.body.classList.add('no-scroll');
+}
+function showLB(){
+  document.getElementById('lbImg').src = lbImages[lbIndex].src;
+  document.getElementById('lbCap').textContent = lbImages[lbIndex].cap;
+}
+function lbNav(dir){
+  lbIndex = (lbIndex + dir + lbImages.length) % lbImages.length;
+  showLB();
+}
+function closeLB(){
+  lb.classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
 
 /* LOAD GALLERY */
 fetch('gallery-manifest.json?v=' + Date.now())
@@ -183,9 +231,13 @@ function loadGallery(containerId, files, basePath) {
   const grid = document.getElementById(containerId);
   if (!grid) return;
   grid.innerHTML = '';
+  const allImgs = files.map(file => ({
+    src: basePath + file,
+    cap: file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')
+  }));
   files.forEach((file, i) => {
-    const name = file.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-    grid.innerHTML += `<div class="gallery-item vis" onclick="openLB('${basePath}${file}','${name}')">
+    const name = allImgs[i].cap;
+    grid.innerHTML += `<div class="gallery-item vis" onclick="openLB(${JSON.stringify(allImgs).replace(/"/g,"'")},${i})">
       <img src="${basePath}${file}" alt="${name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"/>
       <div class="gallery-overlay"><div class="gallery-caption">${name}</div></div>
     </div>`;
