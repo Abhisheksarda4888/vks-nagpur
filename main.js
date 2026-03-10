@@ -3,7 +3,11 @@
   'use strict';
 
   /* ── IMAGE PROTECTION ── */
-  document.addEventListener('contextmenu', e=>{ if(e.target.tagName==='IMG') e.preventDefault(); });
+ document.addEventListener('contextmenu', e=>e.preventDefault());
+document.addEventListener('touchstart', e=>{ if(e.touches.length>1) e.preventDefault(); }, {passive:false});
+document.addEventListener('touchmove', e=>{ if(e.touches.length>1) e.preventDefault(); }, {passive:false});
+document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey)&&(e.key==='+'||e.key==='-'||e.key==='=')) e.preventDefault(); });
+document.addEventListener('wheel', e=>{ if(e.ctrlKey) e.preventDefault(); }, {passive:false});
   document.addEventListener('dragstart', e=>{ if(e.target.tagName==='IMG') e.preventDefault(); });
 
   /* ── NAV SCROLL ── */
