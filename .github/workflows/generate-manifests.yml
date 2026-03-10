@@ -5,7 +5,6 @@ on:
     paths:
       - 'images/seminar-knowledge/**'
       - 'images/team-movements/**'
-      - 'images/weekend-charcha/**'
       - 'bulletins/**'
       - 'publications.json'
 
@@ -35,7 +34,7 @@ jobs:
           manifest = {
               "seminar-knowledge": get_images("seminar-knowledge"),
               "team-movements":    get_images("team-movements"),
-              "weekend-charcha":   get_images("weekend-charcha")
+              
           }
 
           with open('gallery-manifest.json','w') as f:
