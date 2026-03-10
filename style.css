@@ -103,7 +103,7 @@ p{color:var(--ink3);line-height:1.82;font-size:.95rem;font-weight:300}
 .logo{display:flex;align-items:center;gap:.6rem;flex-shrink:0;min-width:0;text-decoration:none}
 .logo-img{width:100px;height:100px;object-fit:contain;flex-shrink:0}
 .logo-text{display:flex;flex-direction:column;line-height:1.2;min-width:0}
-.logo-firm{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:600;color:var(--navy);white-space:normal;line-height:1.25}
+.logo-firm{font-family:'Cormorant Garamond',serif;font-size:.9rem;font-weight:700;color:var(--navy);white-space:nowrap;line-height:1.25}
 .logo-tag{font-size:.56rem;font-weight:500;color:var(--gold);letter-spacing:.13em;text-transform:uppercase;white-space:nowrap}
 
 /* Nav links */
@@ -713,7 +713,7 @@ footer,nav,.pad,.pad-sm{max-width:100%;overflow-x:hidden}
   /* Nav */
 /* Nav */
 .logo-img{width:52px;height:52px;max-height:52px;object-fit:contain;flex-shrink:0;overflow:hidden}
-.logo-firm{font-size:1.25rem;line-height:1.2;max-width:200px;white-space:normal;font-weight:700;color:#800000;}
+.logo-firm{font-size:.82rem;line-height:1.2;max-width:none;white-space:nowrap;font-weight:700;color:#800000;}
 .logo-tag{display:none}
 
   /* Grid */
