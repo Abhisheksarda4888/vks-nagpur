@@ -10,6 +10,19 @@
 <link rel="stylesheet" href="style.css"/>
 <style>
 .gallery-empty{text-align:center;padding:3rem 1rem;color:var(--ink4);font-size:.88rem;background:var(--surf);border-radius:var(--r);border:1px dashed var(--line);grid-column:1/-1}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:.75rem}
+.gallery-item{aspect-ratio:1/1;width:160px;overflow:hidden;border-radius:var(--r);cursor:pointer;position:relative;background:var(--surf)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-overlay{position:absolute;inset:0;background:rgba(13,27,62,0);transition:background .3s;display:flex;align-items:flex-end}
+.gallery-item:hover .gallery-overlay{background:rgba(13,27,62,.45)}
+.gallery-caption{color:#fff;font-size:.72rem;padding:.6rem .8rem;opacity:0;transition:opacity .3s;text-transform:capitalize}
+.gallery-item:hover .gallery-caption{opacity:1}
+.lb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.lb-overlay.open{opacity:1;pointer-events:all}
+.lb-overlay img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:8px}
+.lb-close{position:fixed;top:1.25rem;right:1.5rem;color:#fff;font-size:2rem;cursor:pointer;background:none;border:none;z-index:10000}
+.lb-caption{position:fixed;bottom:1.5rem;left:0;right:0;text-align:center;color:rgba(255,255,255,.6);font-size:.8rem}
 .gallery-empty span{display:block;font-size:2rem;margin-bottom:.75rem}
 </style>
 </head>
